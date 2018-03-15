@@ -17,6 +17,7 @@
     let currentRocks = 0;
     let currentPapers = 0;
     let currentScissors = 0;
+    let active = false;
     let currentOpponent = "";
     let savedNames = [];
     let savedUsers = JSON.parse(localStorage.getItem('localUsers'));
@@ -46,9 +47,16 @@
 
         for (var i = 0; i < savedNames.length; i++) {
 
+            let addBtn = $('<button>')
+                .addClass('btn btn-light mb-2 existing-user-btn')
+                .attr({
+                    type: 'submit'
+                })
+                .text(savedNames[i])
+
             let item = $('<li>')
                 .addClass('list-group-item')
-                .text(savedNames[i])
+                .append(addBtn);
 
             let close = $('<button>')
                 .addClass('close text-right')
@@ -69,27 +77,32 @@
 
     loadSavedUsers();
 
-    $(document).on("click", "button.close", function () {
+    $(document).on("click", "button.close", function() {
         let tupleList = JSON.parse(localStorage.getItem('localUsers'));
         var currentIndex = $(this).attr('data-index');
 
         // console.log($(this))
-   
+
         database.ref("users/" + tupleList[currentIndex].userKey).remove(); //here
 
         //local delete
         tupleList.splice(currentIndex, 1);
 
         savedNames.splice(currentIndex, 1); //here
-        
+
         savedUsers = tupleList;
 
         localStorage.setItem('localUsers', JSON.stringify(savedUsers));
 
         //firebase delete
-  
+
 
         loadSavedUsers();
+    });
+
+    $(document).on("click", ".existing-user-btn", function() {
+
+        addUser($(this).text())
     });
 
     // var winCount = 0;
@@ -133,6 +146,7 @@
         this.rocks = rocks;
         this.papers = papers;
         this.scissors = scissors;
+        this.active = active;
     }
 
 
@@ -164,11 +178,23 @@
         })
     }
 
-    $('.submit-btn').click(function () {
+    $('.submit-btn').click(function (event) {
+
+        let submitUser = $('.username-input').val().trim();
+
+        addUser(submitUser);
+       
+    });
+
+    function addUser(user) {
 
         event.preventDefault();
 
-        currentName = $('.username-input').val().trim();
+        currentName = user;
+
+        if (currentName === "") {
+            return;
+        }
 
         // console.log(savedUsers, currentName)
 
@@ -188,6 +214,8 @@
 
             // console.log(userTuple);
 
+            active = true;
+
             firebase.database().ref('users/' + key).set({
                 name: currentName,
                 wins: currentWins,
@@ -195,6 +223,7 @@
                 rocks: currentRocks,
                 papers: currentPapers,
                 scissors: currentScissors,
+                isActive: active,
                 dateAdded: firebase.database.ServerValue.TIMESTAMP
             });
         }
@@ -202,7 +231,7 @@
         $('.screen-1').fadeOut("slow", function () {
             $('.screen-2').fadeIn("slow", function () {});
         });
-    });
+    }
 
     $('.play-game').click(function () {
         $('.screen-2').fadeOut("slow", function () {
