@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Shrikhand');
+body {
+    font-family: 'Montserrat', sans-serif;
+    height: 100vh;
+    width: 100vw;
+    color: #34495e;
+}
+
+h1 {
+    font-family: 'Shrikhand', cursive;
+    color: #007185;
+}
+
+.jumbotron {
+    text-align: center;
+    /* background: rgba(255, 255, 255, .75); */
+    /* padding: 5px; */
+    background-image: linear-gradient(to right top, #f1c40f, #6eb84a, #00997d, #007185, #34495e);
+    color: #fff;
+}
+
+.jumbotron h1 {
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.icon {}
+
+.card-header {
+    /* background: rgba(255, 255, 255, .75); */
+}
+
+.stat-card {
+    background: #ecf0f1;
+    display: inline-block;
+    width: 100%;
+}
+
+.play-game {
+    margin-top: 1rem;
+}
+
+.choice {
+    width: 30%;
+}
+
+strong {
+    font-weight: bold;
+    color: #007185;
+    text-decoration-line: underline;
+    text-decoration-style: wavy;
+}
+
+.screen-3,
+.screen-2 {
+    display: none;
+}
+
+@media(max-width: 768px) {
+    h1 {
+        font-size: 18px;
+    }
+    .instructions {
+        font-size: 12px;
+    }
+}
