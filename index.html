@@ -23,29 +23,46 @@
             <div class="container">
                 <h1 class="display-4">
                     <div class="row">
-                        <div class="col-4 icon">
-                            <i class="far fa-hand-rock"></i>
+                        <div class="col-4">
+                            <i class="far fa-hand-rock title-main"></i>
+                            <i class="icon-left guess-result"></i>
                         </div>
-                        <div class="col-4 icon">
-                            <i class="far fa-hand-paper"></i>
+                        <div class="col-4">
+                            <i class="far fa-hand-paper title-main"></i>
+                            <i class="fas fa-arrow-circle-right icon-center"></i>
                         </div>
-                        <div class="col-4 icon">
-                            <i class="far fa-hand-peace"></i>
+                        <div class="col-4">
+                            <i class="far fa-hand-peace title-main"></i>
+                            <i class="icon-right guess-result"></i>
                         </div>
                     </div>
                 </h1>
                 <div class="row">
-                    <div class="col-4">
-                        <h1>Rock</h1>
-                        <span class="instructions">(beats scissors)</span>
+                    <div class="col-4 player-guess-wrapper">
+                        <div class="header-rock">
+                            <h1>Rock</h1>
+                            <span class="instructions">(beats scissors)</span>
+                        </div>
+                        <div class="player-guess">
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h1>Paper</h1>
-                        <span class="instructions">(beats rock)</span> 
+                    <div class="col-4 vs-wrapper">
+                        <div class="header-paper title-main">
+                            <h1>Paper</h1>
+                            <span class="instructions">(beats rock)</span>
+                        </div>
+                        <div class="vs-guess">
+                            <h1>vs</h1>
+                            <span class="instructions">(results)</span>
+                        </div>
                     </div>
-                    <div class="col-4">
-                        <h1>Scissors</h1>
-                        <span class="instructions">(beats paper)</span>
+                    <div class="col-4 opp-guess-wrapper">
+                        <div class="header-scissors">
+                            <h1>Scissors</h1>
+                            <span class="instructions">(beats paper)</span>
+                        </div>
+                        <div class="opp-guess">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,25 +123,27 @@
                             <div class="card-body">
                                 <h5 class="card-title">
                                     <span class="opponent">Computer Player</span> Stats:</h5>
-                                    <hr>
+                                <hr>
                                 <div class="row card-content">
                                     <div class="card-text col-6"> Win Rate:
-                                        <br> <strong>Past Selections</strong>
+                                        <br>
+                                        <strong>Past Selections</strong>
                                         <br>
                                         <div class="container">
-                                        Rock:
-                                        <br> Paper:
-                                        <br> Scissors:
+                                            Rock:
+                                            <br> Paper:
+                                            <br> Scissors:
+                                        </div>
                                     </div>
-                                    </div>
-                                    <div class="card-text col-6"> 
-                                        <span class="win-count">0</span>%
-                                        <br><br>
-                                        <span class="rock-throws">0</span>%
-                                        <br> 
-                                        <span class="paper-throws">0</span>%
-                                        <br> 
-                                        <span class="scissor-throws">0</span>%
+                                    <div class="card-text col-6">
+                                        <span class="computer-win-count">0</span>%
+                                        <br>
+                                        <br>
+                                        <span class="computer-rock-throws">0</span>%
+                                        <br>
+                                        <span class="computer-paper-throws">0</span>%
+                                        <br>
+                                        <span class="computer-scissor-throws">0</span>%
                                     </div>
                                 </div>
                             </div>
@@ -142,27 +161,18 @@
     <div class="container screen-3">
         <div class="jumbotron">
             <h1 class="display-4 count-down">Ready!</h1>
-            <p class="lead">
-                <strong>Rock</strong> wins against
-                <strong>Scissors</strong>.
-                <br>
-                <strong>Scissors</strong> wins against
-                <strong>Paper</strong>.
-                <br>
-                <strong>Paper</strong> wins against
-                <strong>Rock</strong>.</p>
+            <p class="lead"></p>
             <hr class="my-4">
             <p>Make your selection:</p>
-            <p class="lead">
+            <p class="lead btn-wrapper">
                 <a class="btn btn-light btn-lg choice rock-btn" href="#" role="button">Rock</a>
                 <a class="btn btn-light btn-lg choice paper-btn" href="#" role="button">Paper</a>
                 <a class="btn btn-light btn-lg choice scissors-btn" href="#" role="button">Scissors</a>
+                <a class="btn btn-light btn-lg replay-options play-again" href="#" role="button">Play Again</a>
             </p>
         </div>
     </div>
     <!-- Screen 3 -->
-
-
     <!-- firebase, jQuery full, then Popper.js, then Bootstrap JS, font awesome, then local JS -->
     <script src="https://www.gstatic.com/firebasejs/4.11.0/firebase.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
