@@ -56,9 +56,6 @@
         }
     })
 
-
-
-
     function loadSavedUsers() {
 
         $('.saved-profiles').empty();
@@ -190,8 +187,6 @@
                 currentGuess: currentGuess,
                 opponent: ""
             });
-
-
         }
 
         database.ref('users/' + userTuple.userKey).update({
@@ -212,30 +207,16 @@
                 isActive: false
             })
         }
-
-
-
     } //addUser
-
-
-
-    function countDown() { //remove?
-        $('.count-down')
-
-        //after count down
-        let timeOut = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-
-        // check(timeOut, )
-    }
 
     function loadOpponents() {
         let name = "";
         for (var i = 0; i < savedNames.length; i++) {
             name = savedNames[i];
-            if (name === 'computer') {} else {
+            if (name === 'computer' || name === currentName) {} else {
                 let newOpp = $('<div>')
                     .addClass('card player-card')
-                    .html('<div class="card-header" id="heading' + i + '"><h5 class="mb-0"><button class="btn btn-outline-info btn-block collapsed" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">' + name + '</button></h5></div><div id="collapse' + i + '" class="collapse" aria-labelledby="heading' + i + '" data-parent="#accordion"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Past Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div><button type="button" class="btn btn-success btn-block play-game" data-player=' + name + '>Play<span class="opponent">Opponent</span></button></div></div></div>')
+                    .html('<div class="card-header" id="heading' + i + '"><h5 class="mb-0"><button class="btn btn-outline-info btn-block collapsed" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">' + name + '</button></h5></div><div id="collapse' + i + '" class="collapse" aria-labelledby="heading' + i + '" data-parent="#accordion"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Past Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div><button type="button" class="btn btn-success btn-block play-game" data-player=' + name + '>Play <span class="opponent">' + name + '</span></button></div></div></div>')
                 //here replace two with three and so on
                 $('#accordion').append(newOpp);
                 updateData()
@@ -369,14 +350,9 @@
         $('.title-main').fadeOut("slow", function () {
             $('.guess-result').fadeIn("slow", function () {});
         });
-
-
-
-
     }
 
     function updateData() {
-
 
         let tupleList = JSON.parse(localStorage.getItem('localUsers'));
 
@@ -398,12 +374,9 @@
                 $('.' + data.name + '-rock-throws').text(Math.round((data.rocks / data.plays) * 100))
                 $('.' + data.name + '-paper-throws').text(Math.round((data.papers / data.plays) * 100))
                 $('.' + data.name + '-scissor-throws').text(Math.round((data.scissors / data.plays) * 100))
-
             })
         }
     }
-
-
 
     function recordGuess(letterOfGuess) {
 
@@ -432,12 +405,6 @@
                     $('.header-rock h1').text('Scissors');
                     break;
             }
-
-            //prop obj currentRoom update prop on ref , set current room to opp key
-
-            //run on second guess
-
-            //firebase .off to shake handler (room) 
 
             oppPlays++
 
@@ -470,10 +437,8 @@
         }
     }
 
-    function resetGame() { //add to new opp
+    function resetGame() { 
         guessed = false;
-
-
 
         $('.header-scissors h1').text('Scissors');
         $('.header-scissors span').text('(beats paper)')
@@ -496,8 +461,6 @@
 
         $('.count-down').text('Ready!')
     }
-
-
 
     $('.play-again').click(function () {
         resetGame();
@@ -551,6 +514,14 @@
 
     updateData();
 
+    //check if opp
+    
+
 })()
 
-//add names in data not in local storage to opponent list if active; show waiting until both a playing, then count-down give 2 s to select, then auto select, then display results
+
+            //prop obj currentRoom update prop on ref , set current room to opp key
+
+            //run on second guess
+
+            //firebase .off to shake handler (room) 
