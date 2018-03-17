@@ -217,7 +217,7 @@
             if (name === 'computer' || name === currentName) {} else {
                 let newOpp = $('<div>')
                     .addClass('card player-card')
-                    .html('<div class="card-header" id="heading' + i + '"><h5 class="mb-0"><button class="btn btn-outline-info btn-block collapsed" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">' + name + '</button></h5></div><div id="collapse' + i + '" class="collapse" aria-labelledby="heading' + i + '" data-parent="#accordion"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Past Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div><button type="button" class="btn btn-success btn-block play-game" data-player=' + name + '>Play <span class="opponent">' + name + '</span></button></div></div></div>')
+                    .html('<div class="card-header" id="heading' + i + '"><h5 class="mb-0"><button class="btn btn-outline-info btn-block collapsed" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">' + name + '</button></h5></div><div id="collapse' + i + '" class="collapse" aria-labelledby="heading' + i + '" data-parent="#accordion"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div><button type="button" class="btn btn-success btn-block play-game" data-player=' + name + '>Play <span class="opponent">' + name + '</span></button></div></div></div>')
                 
                 $('#accordion').append(newOpp);
                 updateData()
@@ -302,6 +302,7 @@
                 scissors: currentScissors,
             })
             updateData()
+
         } else if ((userGuess === 'p' && oppGuess === 'r') || (userGuess === 's' && oppGuess ===
                 'p') || (userGuess === 'r' && oppGuess === 's')) {
             $('.count-down').text(currentName + ' wins!')
@@ -323,6 +324,7 @@
                 scissors: oppScissors,
             })
             updateData()
+
         } else {
             $('.count-down').text("It's a tie!")
             database.ref('users/' + userTuple.userKey).update({
@@ -343,6 +345,15 @@
             })
             updateData()
         }
+       
+        let name = currentName;
+        let newOpp = $('<div>')
+        .addClass('card results-card')
+        .html('<div class="card-header"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div></div></div>')
+        $('.btn-wrapper')
+        .append(newOpp)
+
+        updateData()
 
         $('.choice').fadeOut("slow", function () {
             $('.replay-options').fadeIn("slow", function () {
@@ -353,6 +364,8 @@
         $('.title-main').fadeOut("slow", function () {
             $('.guess-result').fadeIn("slow", function () {});
         });
+
+
     }
 
     function updateData() {
@@ -372,11 +385,12 @@
 
             database.ref('users/' + tupleList[i].userKey).on('value', function (snap) {
                 let data = snap.val();
-
+                if(data.plays === 0) {} else {
                 $('.' + data.name + '-win-count').text(Math.round((data.wins / data.plays) * 100))
                 $('.' + data.name + '-rock-throws').text(Math.round((data.rocks / data.plays) * 100))
                 $('.' + data.name + '-paper-throws').text(Math.round((data.papers / data.plays) * 100))
                 $('.' + data.name + '-scissor-throws').text(Math.round((data.scissors / data.plays) * 100))
+                }
             })
         }
     }
@@ -443,6 +457,7 @@
     function resetGame() {
         guessed = false;
 
+        $('.results-card').remove();
         $('.header-scissors h1').text('Scissors');
         $('.header-scissors span').text('(beats paper)')
         $('.header-rock h1').text('Rock');
@@ -472,8 +487,12 @@
     function forClick(letter) {
         if (currentOpponent === 'computer') {
             opponentGuess = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-        } else {
+        } else if (database.ref('user/' + oppKey + '/currentGuess') === 'r' || database.ref('user/' + oppKey + '/currentGuess') === 'p' || database.ref('user/' + oppKey + '/currentGuess') === 's') {
+
             opponentGuess = database.ref('user/' + oppKey + '/currentGuess');
+            
+        } else {
+            opponentGuess = ""
         }
 
         currentGuess = letter;
@@ -488,11 +507,11 @@
 
         } else if (currentGuess === "" && opponentGuess !== "") {
 
-            $('.count-down').text(currentOpponent + ' has guessed! Waiting on ' + currentName + '!')
+            $('.count-down').text(currentOpponent + ' has guessed! Waiting on ' + currentName + '...')
 
         } else if (currentGuess !== "" && opponentGuess === "") {
 
-            $('.count-down').text(currentName + ' has guessed! Waiting on ' + currentOpponent + '!')
+            $('.count-down').text(currentName + ' has guessed! Waiting on ' + currentOpponent + '...')
 
         } else {}
     }

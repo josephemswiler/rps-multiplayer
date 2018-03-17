@@ -13,8 +13,6 @@ h1 {
 
 .jumbotron {
     text-align: center;
-    /* background: rgba(255, 255, 255, .75); */
-    /* padding: 5px; */
     background-image: linear-gradient(to right top, #f1c40f, #6eb84a, #00997d, #007185, #34495e);
     color: #fff;
 }
@@ -22,12 +20,6 @@ h1 {
 .jumbotron h1 {
     color: #fff;
     margin-bottom: 0;
-}
-
-.icon {}
-
-.card-header {
-    /* background: rgba(255, 255, 255, .75); */
 }
 
 .stat-card {
@@ -58,6 +50,15 @@ strong {
     display: none;
 }
 
+.btn-wrapper {
+    margin-bottom: 1rem;
+}
+
+.results-card {
+    text-align: left;
+    margin-top: 1rem;
+    color: #252525
+}
 
 
 @media(max-width: 768px) {
