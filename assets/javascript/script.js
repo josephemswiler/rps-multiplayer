@@ -33,6 +33,7 @@
     let oppRocks = 0;
     let oppPapers = 0;
     let oppScissors = 0;
+    let listening = true;
 
     if (!Array.isArray(savedUsers)) {
         savedUsers = [];
@@ -64,7 +65,7 @@
 
         if (insideList) {
             for (var i = 0; i < insideList.length; i++) {
-              
+
                 savedNames.push(insideList[i].userName);
             }
         }
@@ -108,12 +109,12 @@
         let currentIndex = $(this).attr('data-index');
 
         //firebase delete
-        database.ref("users/" + tupleList[currentIndex].userKey).remove(); //here fix this
+        database.ref("users/" + tupleList[currentIndex].userKey).remove(); 
 
         //local delete
         tupleList.splice(currentIndex, 1);
 
-        savedNames.splice(currentIndex, 1); //here
+        savedNames.splice(currentIndex, 1); 
 
         savedUsers = tupleList;
 
@@ -217,7 +218,7 @@
                 let newOpp = $('<div>')
                     .addClass('card player-card')
                     .html('<div class="card-header" id="heading' + i + '"><h5 class="mb-0"><button class="btn btn-outline-info btn-block collapsed" data-toggle="collapse" data-target="#collapse' + i + '" aria-expanded="true" aria-controls="collapse' + i + '">' + name + '</button></h5></div><div id="collapse' + i + '" class="collapse" aria-labelledby="heading' + i + '" data-parent="#accordion"><div class="card-body"><div class="card stat-card"><div class="card-body"><h5 class="card-title"><span class="opponent">' + name + '</span> Stats:</h5><hr><div class="row card-content"><div class="card-text col-6"> Win Rate:<br><strong>Past Selections</strong><br><div class="container">Rock:<br> Paper:<br> Scissors:</div></div><div class="card-text col-6"><span class="' + name + '-win-count">0</span>%<br><br><span class="' + name + '-rock-throws">0</span>%<br><span class="' + name + '-paper-throws">0</span>%<br><span class="' + name + '-scissor-throws">0</span>%</div></div></div></div><button type="button" class="btn btn-success btn-block play-game" data-player=' + name + '>Play <span class="opponent">' + name + '</span></button></div></div></div>')
-                //here replace two with three and so on
+                
                 $('#accordion').append(newOpp);
                 updateData()
             }
@@ -225,6 +226,8 @@
     };
 
     $(document).on("click", ".play-game", function () {
+
+        listening = false;
 
         $('.screen-2').fadeOut("slow", function () {
             $('.screen-3').fadeIn("slow", function () {});
@@ -253,7 +256,7 @@
             isActive: false
         })
 
-        database.ref("users/" + userTuple.userKey).on("value", function (snapshot) { //call function pass in letter of guess
+        database.ref("users/" + userTuple.userKey).on("value", function (snapshot) { 
             let data = snapshot.val();
 
             currentWins = data.wins;
@@ -263,7 +266,7 @@
             currentScissors = data.scissors;
         });
 
-        database.ref("users/" + oppKey).on("value", function (snapshot) { //call function pass in letter of guess
+        database.ref("users/" + oppKey).on("value", function (snapshot) { 
             let data = snapshot.val();
 
             oppWins = data.wins;
@@ -437,7 +440,7 @@
         }
     }
 
-    function resetGame() { 
+    function resetGame() {
         guessed = false;
 
         $('.header-scissors h1').text('Scissors');
@@ -495,33 +498,41 @@
     }
 
     $('.rock-btn').click(function () {
-        $('.count-down').text('rock'); //here delete
+        $('.count-down').text('rock'); 
 
         forClick('r')
 
     });
     $('.paper-btn').click(function () {
-        $('.count-down').text('paper'); //here delete
+        $('.count-down').text('paper'); 
 
         forClick('p')
 
     });
     $('.scissors-btn').click(function () {
-        $('.count-down').text('scissors'); //here delete
+        $('.count-down').text('scissors'); 
 
         forClick('s')
     });
 
     updateData();
 
-    //check if opp
-    
+    function isListening() {
+        if (listen) {
+        
+            for (var i = 0; i < tupleList.length; i++) {
 
+                database.ref('users/' + tupleList[i].userKey).on('value', function (snap) {
+                    let data = snap.val();
+
+                    if (data.opponent === currentName) {
+                        console.log('hello')
+                    
+                    }
+
+                })
+            }
+         
+        }
+    }
 })()
-
-
-            //prop obj currentRoom update prop on ref , set current room to opp key
-
-            //run on second guess
-
-            //firebase .off to shake handler (room) 
